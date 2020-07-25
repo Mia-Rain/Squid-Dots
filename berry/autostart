@@ -1,0 +1,36 @@
+#!/bin/bash
+# res
+xrandr --newmode "1920x1080R"  138.50  1920 1968 2000 2080  1080 1083 1088 1111 +hsync -vsync
+xrandr --addmode HDMI1 "1920x1080R"
+xrandr --output HDMI1 --mode 1920x1080R
+xrandr --output eDP1 --off
+xrandr --output HDMI1 --primary
+
+##
+nohup /home/thatgeekyweeb/BlurME/BlurME -w 2 -c /home/thatgeekyweeb/Pictures/wallpaper3.png -b 20 &
+sxhkd &
+buckle &
+picom --blur-method kawase --backend glx --blur-strength 3 --blur-background -c --shadow-red 0 --shadow-green 0 --shadow-blue 0 -f &
+##
+
+# Set decoration geometry
+berryc border_width       5
+berryc inner_border_width 3
+berryc title_height       30
+
+# Set decoration colors
+berryc inner_unfocus_color       f9e6ff
+berryc inner_focus_color         a489ad
+berryc focus_color               f9e6ff
+berryc unfocus_color		 a489ad
+berryc text_unfocus_color        a489ad
+berryc text_focus_color          000000
+
+# Other options
+berryc smart_place "true"
+berryc draw_text   "true"
+berryc edge_lock   "true"
+
+# add those Tasty gaps
+berryc edge_gap 25 27 25 25
+# 27 = 2px blocker at bottom of screen
