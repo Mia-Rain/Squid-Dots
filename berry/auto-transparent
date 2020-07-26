@@ -1,4 +1,7 @@
 #!/bin/sh
+# Anti-Decorations! ~ For berry(wm)
+# By ThatGeekyWeeb
+# https://github.com/ThatGeekyWeeb/Squid-Dots
 while getopts ":w:" opt
 do
   case "$opt" in
