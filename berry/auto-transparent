@@ -8,23 +8,31 @@ do
     w ) windowNAME=$OPTARG;;
   esac
 done
-while sleep 5
-do
-wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME" -q
-if [ "$?" = "0" ]; then
-	echo "${windowNAME} Found!"
-else
-	echo "${windowNAME} not found!"
-fi
-if [ "$windowNAME" = "Discord" ]; then
-    	wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME Updater" -q
-    	if ["$?" = "0" ]; then
-        	sleep 10
-    	fi
-fi
+windowNAME="Discord"
+func_1(){
 var1=$(wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "Discord" | cut -f1 -d" ")
 xprop -id "$var1" BERRY_WINDOW_STATUS | grep 'true' -q
 if [ "$?" = "0" ]; then
 	wmctrl -a "$var1" -i | berryc toggle_decorations
 fi
+}
+while sleep 5
+do
+wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME" -q
+if [ "$?" = "0" ]; then
+	echo "${windowNAME} Found!"
+	wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME"" " -q
+	if [ "$?" = "0" ]; then
+		ehco "Subprocess found (use exact window name)"
+		sleep 1
+	fi
+else
+	echo "${windowNAME} not found!"
+	sleep 1
+fi
+wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME"" " -q
+until [ "$?" != "0" ]; do
+	sleep 1
+done
+func_1
 done

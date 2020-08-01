@@ -9,8 +9,11 @@ xrandr --output HDMI1 --primary
 ##
 nohup /home/thatgeekyweeb/BlurME/BlurME -w 2 -c /home/thatgeekyweeb/Pictures/wallpaper3.png -b 20 &
 sxhkd &
-buckle &
-picom --blur-method kawase --backend glx --blur-strength 3 --blur-background -c --shadow-red 0 --shadow-green 0 --shadow-blue 0 -f &
+picom --blur-method kawase --backend glx --blur-strength 3 --blur-background -c --shadow-red 0 --shadow-green 0 --shadow-blue 0 -f & disown
+dunst &
+/home/thatgeekyweeb/builds/Squid-Dots/berry/auto-transparent -w "Discord" & disown
+setxkbmap -option caps:super
+buckle -p /home/thatgeekyweeb/builds/bucklespring/wav & disown
 ##
 
 # Set decoration geometry

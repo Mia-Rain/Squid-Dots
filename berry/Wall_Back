@@ -1,0 +1,60 @@
+#!/bin/sh
+# Bring back the wallpaper!! ~ For berry(wm)
+# By ThatGeekyWeeb & Periish
+# https://github.com/ThatGeekyWeeb/Squid-Dots
+# by periish *\/*
+get_ws () {
+while read -r ws status _; do
+    case $status in
+        '*') printf '%s\n' "$ws"
+    esac
+done <<EOF
+$(wmctrl -d)
+EOF
+}
+
+get_wids () {
+    current="$(get_ws)"
+    while read -r wid ws _; do
+        case $ws in
+            "$current") printf '%s ' "$wid"
+        esac
+    done <<EOF
+$(wmctrl -l)
+EOF
+}
+send () {
+    for wid in $(get_wids); do
+        wmctrl -a "$wid" -i
+        berryc send_to_workspace 9
+    done
+}
+# ^^^ By periish
+call_bk () {
+	var1=$(get_ws)
+	berryc switch_workspace 9
+	for wid in $(get_wids); do
+	    wmctrl -a "$wid" -i
+	    berryc send_to_workspace "$var1"
+	done
+}
+usage () {
+cat << EOF
+${0##*/}: Brings Back the Wallpaper ~ Written for berry
+usage: ${0##*/} [-h|-r]
+*: Send Windows to WorkSpace 0 (Non-existant workspace)
+-r/--return/-w: Return windows to current Workspace
+-h/--help: That print's this silly
+EOF
+}
+# *\/* by periish
+main () {
+    case $1 in
+        -h|--help) usage && exit 1 ;;
+        -r|--return|-w) call_bk ;;
+        -*) usage && exit 1 ;;
+        *) send ;;
+    esac
+}
+main "$@"
+#
