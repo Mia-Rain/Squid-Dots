@@ -9,23 +9,41 @@ do
   esac
 done
 windowNAME="Discord"
-func_1(){
-var1=$(wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME" | cut -f1 -d" ")
-until xprop -id "$var1" BERRY_WINDOW_STATUS | grep 'true' -q; do
-	sleep 1
-done
-wmctrl -a "$var1" -i | berryc toggle_decorations
+
+get_ws () {
+while read -r ws status _; do
+    case $status in
+        '*') printf '%s\n' "$ws"
+    esac
+done <<EOF
+$(wmctrl -d)
+EOF
 }
+
 while sleep 1
 do
-while wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME " -q; do
+while wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME""[[:space:]][A-z]" -q; do
 	printf "Subprocess found waiting\n"
-	sleep 1
+	sleep 5
+done
+while wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME""[[:space:]][A-z]" -q; do
+	printf "Subprocess found waiting\n"
+	sleep 5
 done
 printf '%b Found!\n' "$windowNAME"
-until wmctrl -l | grep "  "$(wmctrl -d | grep "\*" | cut -f1 -d" ") | grep "$windowNAME" -q; do
+until wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME" -q; do
 	printf '%b not found!\n' "$windowNAME"
- 	sleep 1
+ 	sleep 2
 done
-func_1
+while wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME""[[:space:]][A-z]" -q; do
+	printf "Subprocess found waiting\n"
+	sleep 5
+done
+winID=$(wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME" | cut -f1 -d" ")
+until xprop -id $winID BERRY_WINDOW_STATUS | grep 'true' -q; do
+	sleep 1
+done
+printf 'Remove titlebar\n'
+sleep 5 && wmctrl -a "$winID" -i
+sleep 1 && berryc toggle_decorations
 done
