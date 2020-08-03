@@ -13,10 +13,11 @@ while read -r ws status _; do
     case $status in
         '*') printf '%s\n' "$ws"
     esac
-done <<EOF
+done << EOF
 $(wmctrl -d)
 EOF
 }
+
 windowNAME="Minecraft Launcher"
 windowNAME_sub="Minecraft 1.8.9"
 while sleep 1
@@ -33,7 +34,7 @@ done
 xrandr --output HDMI1 --mode 1920x1080R
 printf 'Done!\n'
 printf 'Waiting for Subprocess to finish\n'
-while wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME_sub" -q; do
+until ! wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME_sub" -q; do
 	printf 'Waiting for Subprocess to finish\n'
 	sleep 1
 done
