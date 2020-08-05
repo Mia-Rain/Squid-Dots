@@ -34,6 +34,7 @@ done
 xrandr --output HDMI1 --mode 1920x1080R
 printf 'Done!\n'
 printf 'Waiting for Subprocess to finish\n'
+sleep 1 && berryc toggle_decorations
 until ! wmctrl -l | grep "  "$(get_ws) | grep "$windowNAME_sub" -q; do
 	printf 'Waiting for Subprocess to finish\n'
 	sleep 1

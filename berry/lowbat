@@ -1,0 +1,11 @@
+#!/bin/sh
+while sleep 1
+do
+	if ! acpi | grep "[[:space:]]Full" -q; then
+		if ! acpi | grep ",[[:space:]][5-9]" -q; then
+			ffplay /usr/share/sounds/connection-lost.ogg -nodisp -autoexit
+			notify-send "Battery Low" -u critical
+			sleep 20
+		fi
+	fi
+done
