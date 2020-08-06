@@ -1,5 +1,7 @@
 ---
 <h1 id="squid-dots">Squid-Dots</h1>
+<p>My dot files!</p>
+<img src="https://cdn.discordapp.com/attachments/693601899345346591/737153969784094831/emoji-1.png" alt="dots">
 <p>The random things I configured that can’t have their own repo!</p>
 <hr>
 <ol>
